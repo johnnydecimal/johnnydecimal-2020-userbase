@@ -47,8 +47,8 @@ export const loginStateMachine = Machine({
     tryingLogin: {
       invoke: {
         id: "getUser",
-        src: (context, event) => testPromise, // works
-        // src: "userbaseLogin", // doesn't work
+        // src: (context, event) => testPromise, // works
+        src: "userbaseLogin", // doesn't work
 
         onDone: {
           target: "loggedIn",

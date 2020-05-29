@@ -16,3 +16,13 @@
 - Get it working, minimally, with an ugly-AF signin form and logout button,
   all just in one component.
 - **The machine is the most important thing.**
+
+---
+
+## 2020-05-27 05:46
+
+- Added `strict: "true"`.
+- More machine work, we're now trying to get the 'LOGIN' action working.
+  - With a hard-coded username & password for now, rather than a form.
+  - Which didn't work because you deleted the users! D'oh!
+- So now you need to re-create the signup form, which is okay.

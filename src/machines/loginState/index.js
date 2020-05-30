@@ -5,8 +5,8 @@ function testPromise() {
   return new Promise(function (resolve, reject) {
     setTimeout(function () {
       console.log("testPromise -> about to resolve");
-      resolve({ country: "INDIA" });
-    }, 2000);
+      resolve();
+    }, 1000);
   });
 }
 
@@ -46,7 +46,8 @@ export const loginStateMachine = Machine({
     },
     tryingLogin: {
       invoke: {
-        id: "getUser",
+        id: "tryLogin",
+
         // src: (context, event) => testPromise, // works
         src: "userbaseLogin", // doesn't work
 

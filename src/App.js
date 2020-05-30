@@ -5,8 +5,6 @@ import userbase from "userbase-js";
 
 import { loginStateMachine } from "./machines/loginState";
 
-import NoMachine from "./NoMachine";
-
 const LoginForm = ({ loginStateSend }) => {
   const { register, handleSubmit } = useForm();
   const onSubmit = (form) => {
@@ -59,7 +57,6 @@ const App = () => {
 
   return (
     <div>
-      <NoMachine />
       {loginState.matches("loadingSession") ? <p>Pending</p> : null}
       {loginState.matches("loggedIn") ? (
         <div>

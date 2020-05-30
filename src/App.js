@@ -12,11 +12,14 @@ const LoginForm = ({ loginStateSend }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input name="username" ref={register} />
-      <input name="password" type="password" ref={register} />
-      <input type="submit" />
-    </form>
+    <div>
+      <p>Username: johnny / Password: Password123</p>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input name="username" ref={register} />
+        <input name="password" type="password" ref={register} />
+        <input type="submit" />
+      </form>
+    </div>
   );
 };
 
@@ -56,15 +59,15 @@ const App = () => {
   console.log(`loginState.value: ${loginState.value}`);
 
   return (
-    <div>
-      {loginState.matches("loadingSession") ? <p>Pending</p> : null}
+    <div style={{ margin: "100px", fontSize: "2rem" }}>
+      <div>Check the console for more information.</div>
+      <div style={{ marginBottom: "20px" }}>
+        Current machine state:{" "}
+        <span style={{ color: "red" }}>{loginState.value}</span>.{" "}
+      </div>
       {loginState.matches("loggedIn") ? (
-        <div>
-          <p>Mock: logged in</p>
-          <LogoutButton loginStateSend={loginStateSend} />
-        </div>
+        <LogoutButton loginStateSend={loginStateSend} />
       ) : null}
-      {loginState.matches("loggingOut") ? <p>Logging out...</p> : null}
       {loginState.matches("loggedOut") ? (
         <LoginForm loginStateSend={loginStateSend} />
       ) : null}

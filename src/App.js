@@ -30,28 +30,19 @@ const LogoutButton = ({ loginStateSend }) => {
   return <button onClick={handleLogout}>Log out</button>;
 };
 
+const userbaseLogin = (context, event) => {
+  return userbase.signIn({
+    username: event.form.username,
+    password: event.form.password,
+    rememberMe: "local",
+  });
+};
+
 const App = () => {
   const [loginState, loginStateSend, loginStateService] = useMachine(
     loginStateMachine,
     {
-      services: {
-        userbaseLogin: (context, event) => {
-          console.log("App -> useMachine -> userbaseLogin(start)");
-          // debugger;
-          userbase
-            .signIn({
-              username: event.form.username,
-              password: event.form.password,
-              rememberMe: "local",
-            })
-            .then((user) =>
-              console.log(`user from userbaseLogin: ${user.username}`)
-            )
-            .catch((e) => console.error(e));
-
-          console.log("App -> useMachine -> userbaseLogin(done)");
-        },
-      },
+      services: { userbaseLogin },
     }
   );
 

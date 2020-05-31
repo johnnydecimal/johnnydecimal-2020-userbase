@@ -1,15 +1,6 @@
 import { Machine, assign } from "xstate";
 import userbase from "userbase-js";
 
-function testPromise() {
-  return new Promise(function (resolve, reject) {
-    setTimeout(function () {
-      console.log("testPromise -> about to resolve");
-      resolve();
-    }, 1000);
-  });
-}
-
 export const loginStateMachine = Machine({
   strict: "true",
 
@@ -47,60 +38,26 @@ export const loginStateMachine = Machine({
     tryingLogin: {
       invoke: {
         id: "tryLogin",
-
-        // src: (context, event) => testPromise, // works
-        src: "userbaseLogin", // doesn't work
-
+        src: "userbaseLogin",
         onDone: {
           target: "loggedIn",
-          actions: assign({ user: (context, event) => event.data }),
+          actions: [
+            assign({
+              user: (context, event) => event.data,
+              error: null,
+            }),
+          ],
         },
-        onError: {
-          target: "loggedOut",
-          actions: assign({ error: (context, event) => event.data }),
-        },
-      },
-      /*
-      invoke: {
-        id: "tryLogin",
-        // src: testPromise,
-        // src: "userbaseLogin",
-
-        src: (context, event) => {
-          // console.log("App -> useMachine -> userbaseLogin(start)");
-          // debugger;
-          userbase
-            .signIn({
-              username: event.form.username,
-              password: event.form.password,
-              rememberMe: "local",
-            })
-            .then((user) =>
-              console.log(`user from userbaseLogin: ${user.username}`)
-            )
-            .catch((e) => console.error(e));
-
-          // console.log("App -> useMachine -> userbaseLogin(done)");
-        },
-
-        onDone: [
-          {
-            target: "loggedIn",
-          },
-          {
-            target: "loggedIn",
-            actions: [
-              () => console.log("-> tryingLogin:invoke:onDone"),
-              assign({ user: (_, event) => event.data.user }),
-            ],
-          },
-        ],
         onError: {
           target: "loginFailed",
-          actions: () => console.log("-> tryingLogin:invoke:onError"),
+          actions: [
+            assign({
+              user: null,
+              error: (context, event) => event.data.message,
+            }),
+          ],
         },
       },
-      */
     },
     loginFailed: {},
     loggedIn: {
